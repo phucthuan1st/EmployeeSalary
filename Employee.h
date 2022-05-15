@@ -22,7 +22,9 @@ protected:
 
 public:
     virtual int salary() = 0;
-    static Employee *createEmployee(string);
+
+    static Employee *createEmployee(string, int unit, int pay_per_unit);
+    void setName(string name) { this->name = name; }
 };
 
 class DailyEmployee : public Employee
@@ -32,6 +34,9 @@ private:
     int _pay_per_day;
 
 public:
+    DailyEmployee(int _working_days, int _pay_per_day)
+        : _working_days(_working_days), _pay_per_day(_pay_per_day){};
+
     int salary()
     {
         return _pay_per_day * _working_days;
@@ -45,6 +50,9 @@ private:
     int _pay_per_hours;
 
 public:
+    HourlyEmployee(int _working_hours, int _pay_per_hours)
+        : _working_hours(_working_hours), _pay_per_hours(_pay_per_hours){};
+
     int salary()
     {
         return _pay_per_hours * _working_hours;
@@ -58,6 +66,9 @@ private:
     int _pay_per_products;
 
 public:
+    ProductEmployee(int _working_products, int _pay_per_products)
+        : _working_products(_working_products), _pay_per_products(_pay_per_products){};
+
     int salary()
     {
         return _pay_per_products * _working_products;
@@ -72,6 +83,12 @@ private:
     int fix_salary = 500;
 
 public:
+    Manager(int _managed_employees, int _pay_per_employee)
+    {
+        this->_managed_employees = _managed_employees;
+        this->_pay_per_employee = _pay_per_employee;
+    }
+
     int salary()
     {
         return fix_salary + _pay_per_employee * _managed_employees;

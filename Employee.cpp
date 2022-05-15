@@ -23,22 +23,22 @@ vector<string> StringUtils::split(const string &source, string delim)
     return result;
 }
 
-Employee *Employee::createEmployee(string employeeType)
+Employee *Employee::createEmployee(string employeeType, int unit, int pay_per_unit)
 {
     if (employeeType == EmployeeType::HourlyEmployee)
     {
-        return new HourlyEmployee();
+        return new HourlyEmployee(unit, pay_per_unit);
     }
     else if (employeeType == EmployeeType::DailyEmployee)
     {
-        return new DailyEmployee();
+        return new DailyEmployee(unit, pay_per_unit);
     }
     else if (employeeType == EmployeeType::ProductEmployee)
     {
-        return new ProductEmployee();
+        return new ProductEmployee(unit, pay_per_unit);
     }
     else if (employeeType == EmployeeType::Manager)
     {
-        return new Manager();
+        return new Manager(unit, pay_per_unit);
     }
 }

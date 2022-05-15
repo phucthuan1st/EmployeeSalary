@@ -37,6 +37,22 @@ public:
     {
         return _pay_per_day * _working_days;
     }
+
+    string getName() { return name; };
+    void setName(string Name)
+    {
+        name = Name;
+    }
+
+    void setDailyPayment(int dailyPayment)
+    {
+        _pay_per_day = dailyPayment;
+    }
+
+    void setTotalDays(int total)
+    {
+        _working_days = total;
+    }
 };
 
 class HourlyEmployee : public Employee
@@ -77,4 +93,20 @@ public:
     {
         return fix_salary + _pay_per_employee * _managed_employees;
     }
+};
+
+class MockEmployeeData
+{
+public:
+    // parse data from file to an array
+    static vector<Employee*> parse(string filename);
+
+    
+};
+
+class StringUtils
+{
+public:
+    static vector<string> split(string source, string delimiter);
+    
 };

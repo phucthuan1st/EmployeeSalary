@@ -19,7 +19,6 @@ class Employee
 {
 protected:
     string name;
-    int _salary;
 
 public:
     virtual int salary() = 0;
@@ -77,4 +76,9 @@ public:
     {
         return fix_salary + _pay_per_employee * _managed_employees;
     }
+};
+
+class StringUtils
+{
+    static vector<string> split(const string &source, string delim);
 };

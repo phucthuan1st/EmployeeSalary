@@ -1,3 +1,4 @@
+
 #include "Employee.h"
 
 
@@ -106,4 +107,11 @@ vector<Employee*> MockEmployeeData::parse(string filename)
     file.close();
 
     return employees;
+
+
+    token = source.substr(start, end);
+    result.push_back(token);
+
+    return result;
 }
+

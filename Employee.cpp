@@ -24,21 +24,21 @@ vector<string> StringUtils::split(const string &source, string delim)
     return result;
 }
 
-Employee *Employee::createEmployee(string employeeType, int unit, int pay_per_unit)
+Employee* EmployeeFactory::createEmployee(string employeeType, int unit, int pay_per_unit)
 {
-    if (employeeType == EmployeeType::HourlyEmployee)
+    if (employeeType == HourlyEmployeeStr)
     {
         return new HourlyEmployee(unit, pay_per_unit);
     }
-    else if (employeeType == EmployeeType::DailyEmployee)
+    else if (employeeType == DailyEmployeeStr)
     {
         return new DailyEmployee(unit, pay_per_unit);
     }
-    else if (employeeType == EmployeeType::ProductEmployee)
+    else if (employeeType == ProductEmployeeStr)
     {
         return new ProductEmployee(unit, pay_per_unit);
     }
-    else if (employeeType == EmployeeType::Manager)
+    else if (employeeType == ManagerStr)
     {
         return new Manager(unit, pay_per_unit);
     }
@@ -97,7 +97,7 @@ vector<Employee*> MockEmployeeData::parse(string filename)
             }
             
 
-            Employee* employee = Employee::createEmployee(token[0], stoi(unit), stoi(pay_per_unit));
+            Employee* employee = EmployeeFactory::createEmployee(token[0], stoi(unit), stoi(pay_per_unit));
             employee->setName(name);
             employees.push_back(employee);
         }

@@ -7,14 +7,7 @@
 
 using namespace std;
 
-class EmployeeType
-{
-public:
-    static constexpr const char *DailyEmployee = "DailyEmployee";
-    static constexpr const char *HourlyEmployee = "HourlyEmployee";
-    static constexpr const char *ProductEmployee = "ProductEmployee";
-    static constexpr const char *Manager = "Manager";
-};
+
 
 class Employee
 {
@@ -24,7 +17,6 @@ protected:
 public:
     virtual int salary() = 0;
 
-    static Employee *createEmployee(string, int unit, int pay_per_unit);
     void setName(string name) { this->name = name; }
     string getName() { return name; }
 };
@@ -95,6 +87,17 @@ public:
     {
         return fix_salary + _pay_per_employee * _managed_employees;
     }
+};
+
+class EmployeeFactory
+{
+public:
+    static constexpr const char* DailyEmployeeStr = "DailyEmployee";
+    static constexpr const char* HourlyEmployeeStr = "HourlyEmployee";
+    static constexpr const char* ProductEmployeeStr = "ProductEmployee";
+    static constexpr const char* ManagerStr = "Manager";
+
+    static Employee* createEmployee(string, int, int);
 };
 
 class MockEmployeeData

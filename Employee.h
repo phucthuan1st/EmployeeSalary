@@ -3,17 +3,11 @@
 #include <iostream>
 #include <fstream>
 #include <vector>
+#include <string>
 
 using namespace std;
 
-class EmployeeType
-{
-public:
-    static constexpr const char *DailyEmployee = "DailyEmployee";
-    static constexpr const char *HourlyEmployee = "HourlyEmployee";
-    static constexpr const char *ProductEmployee = "ProductEmployee";
-    static constexpr const char *Manager = "Manager";
-};
+
 
 class Employee
 {
@@ -23,8 +17,8 @@ protected:
 public:
     virtual int salary() = 0;
 
-    static Employee *createEmployee(string, int unit, int pay_per_unit);
     void setName(string name) { this->name = name; }
+    string getName() { return name; }
 };
 
 class DailyEmployee : public Employee
@@ -95,7 +89,29 @@ public:
     }
 };
 
+class EmployeeFactory
+{
+public:
+    static constexpr const char* DailyEmployeeStr = "DailyEmployee";
+    static constexpr const char* HourlyEmployeeStr = "HourlyEmployee";
+    static constexpr const char* ProductEmployeeStr = "ProductEmployee";
+    static constexpr const char* ManagerStr = "Manager";
+
+    static Employee* createEmployee(string, int, int);
+};
+
+class MockEmployeeData
+{
+public:
+    // parse data from file to an array
+    static vector<Employee*> parse(string filename);
+
+
+};
+
 class StringUtils
 {
+public:
     static vector<string> split(const string &source, string delim);
 };
+

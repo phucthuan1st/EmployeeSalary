@@ -1,42 +1,46 @@
 #include "Employee.h"
-#include <string>
 
-vector<string> StringUtils::split(string source, string delimiter)
+
+vector<string> StringUtils::split(const string &source, string delim)
 {
-    vector<string> result;
     int start = 0;
-    int end = source.find(delimiter);
+    int end = source.find(delim);
+
+    vector<string> result;
+
+    string token;
 
     while (end != string::npos)
     {
-        string token = source.substr(start, end - start);
+        token = source.substr(start, end);
         result.push_back(token);
-        start = end + delimiter.length();
-        end = source.find(delimiter, start);
+        start = end + delim.length();
+        end = source.find(delim, start);
     }
 
-    result.push_back(source.substr(start, end - start));
+    token = source.substr(start, end);
+    result.push_back(token);
 
     return result;
 }
 
-Employee *Employee::createEmployee(string employeeType)
+Employee *Employee::createEmployee(string employeeType, int unit, int pay_per_unit)
 {
     if (employeeType == EmployeeType::HourlyEmployee)
     {
-        return new HourlyEmployee();
+        return new HourlyEmployee(unit, pay_per_unit);
     }
     else if (employeeType == EmployeeType::DailyEmployee)
     {
-        return new DailyEmployee();
+        return new DailyEmployee(unit, pay_per_unit);
     }
     else if (employeeType == EmployeeType::ProductEmployee)
     {
-        return new ProductEmployee();
+        return new ProductEmployee(unit, pay_per_unit);
     }
     else if (employeeType == EmployeeType::Manager)
     {
-        return new Manager();
+        return new Manager(unit, pay_per_unit);
     }
 }
 
@@ -45,7 +49,8 @@ vector<Employee*> MockEmployeeData::parse(string filename)
 {
     int type = 0;
     vector<Employee*> employees = {};
-
+    string unit = "";
+    string pay_per_unit = "";
     fstream file(filename, ios::in);
 
     if (!file.is_open())
@@ -57,24 +62,44 @@ vector<Employee*> MockEmployeeData::parse(string filename)
         string temp_str = "";
         while (getline(file, temp_str))
         {
-          
-            // get Name
+
             vector<string> token = StringUtils::split(temp_str, ": ");
             temp_str = "";
 
-            Employee* employee = Employee::createEmployee(token[0]);
-            employee->setName(token[1]);
+            // get Employee Type
+            string employeeType = token[0];
 
-            // get Payment
+            // get Name
+            string name = token[1];
+
+            
             getline(file, temp_str);
             token = StringUtils::split(temp_str, "$; ");
             temp_str = "";
 
-            token = StringUtils::split(token[1], ", ");
+            if (token.size() == 3) {
+                // get Pay Per Unit
+                vector<string>token1 = StringUtils::split(token[2], "=");
+                pay_per_unit = token1[1];
 
+                // get Unit
+                token1 = StringUtils::split(token[1], "=");
+                unit = token1[1];
+            }
+            else {
+                // get Pay Per Unit
+                vector<string>token1 = StringUtils::split(token[0], "=");
+                pay_per_unit = token1[1];
+
+                // get Unit
+                token1 = StringUtils::split(token[1], "=");
+                unit = token1[1];
+            }
             
 
-            
+            Employee* employee = Employee::createEmployee(token[0], stoi(unit), stoi(pay_per_unit));
+            employee->setName(name);
+            employees.push_back(employee);
         }
     }
 

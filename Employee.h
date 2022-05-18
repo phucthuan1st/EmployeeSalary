@@ -208,5 +208,12 @@ public:
 
 class StringUtils
 {
+public:
     static vector<string> split(const string &source, string delim);
+};
+
+class Parser
+{
+public:
+    static vector<Employee *> parse(string filename);
 };

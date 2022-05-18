@@ -46,3 +46,43 @@ Employee *EmployeeFactory::createEmployee(string employeeType, string name, int 
 
     return new DailyEmployee(name, unit, pay_per_unit);
 }
+
+vector<Employee *> Parser::parse(string filename)
+{
+    vector<Employee *> employees = {};
+
+    string type;
+    string name;
+    int unit = 0;
+    int pay_per_unit = 0;
+
+    fstream file(filename, ios::in);
+
+    if (!file.is_open())
+    {
+        cout << "Read failed: cannot open " + string(filename) << endl;
+    }
+    else
+    {
+        string line = "";
+        while (getline(file, line))
+        {
+            vector<string> token = StringUtils::split(line, ": ");
+            type = token[0];
+            name = token[1];
+
+            getline(file, line);
+            token = StringUtils::split(line, "$; ");
+            string work = token[0];
+            string pay = token[1];
+            unit = stoi(StringUtils::split(work, "=")[1]);
+            pay_per_unit = stoi(StringUtils::split(pay, "=")[1]);
+
+            employees.push_back(EmployeeFactory::createEmployee(type, name, unit, pay_per_unit));
+        }
+    }
+
+    file.close();
+
+    return employees;
+}

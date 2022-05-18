@@ -4,6 +4,8 @@ A console application to create a report on detailed payment for all of the empl
 ## About:
 We are FIT@HCMUS student. In OOP, we have a salary payment for employer, and this is it's implementation.
 
+## Project description: [Project Employee payment - TDQuang](https://tdquang7.notion.site/Project-Emloyee-payment-78ac0241bfea4e07b502020b0c20de86)
+
 ## Contributer
 - Nguyễn Phúc Thuần: 
   - ID: 20120380  

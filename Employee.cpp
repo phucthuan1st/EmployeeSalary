@@ -23,22 +23,26 @@ vector<string> StringUtils::split(const string &source, string delim)
     return result;
 }
 
+vector<Employee *> EmployeeFactory::prototype{new DailyEmployee, new HourlyEmployee, new ProductEmployee, new Manager};
+
 Employee *EmployeeFactory::createEmployee(string employeeType, string name, int unit, int pay_per_unit)
 {
     if (employeeType == EmployeeType::HourlyEmployee)
     {
-        return new HourlyEmployee(name, unit, pay_per_unit);
+        return prototype[0]->clone(name, unit, pay_per_unit);
     }
     else if (employeeType == EmployeeType::DailyEmployee)
     {
-        return new DailyEmployee(name, unit, pay_per_unit);
+        return prototype[1]->clone(name, unit, pay_per_unit);
     }
     else if (employeeType == EmployeeType::ProductEmployee)
     {
-        return new ProductEmployee(name, unit, pay_per_unit);
+        return prototype[2]->clone(name, unit, pay_per_unit);
     }
     else if (employeeType == EmployeeType::Manager)
     {
-        return new Manager(name, unit, pay_per_unit);
+        return prototype[3]->clone(name, unit, pay_per_unit);
     }
+
+    return new DailyEmployee(name, unit, pay_per_unit);
 }

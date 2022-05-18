@@ -97,7 +97,7 @@ vector<Employee*> MockEmployeeData::parse(string filename)
             }
             
 
-            Employee* employee = EmployeeFactory::createEmployee(token[0], stoi(unit), stoi(pay_per_unit));
+            Employee* employee = EmployeeFactory::createEmployee(employeeType, stoi(unit), stoi(pay_per_unit));
             employee->setName(name);
             employees.push_back(employee);
         }

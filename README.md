@@ -28,14 +28,15 @@ We are FIT@HCMUS student. In OOP, we have a salary payment for employer, and thi
 4. fstream
 
 ## What we have done:
-
+- Read the file
+- Print out all the employees' information and the final payment for each employee.
 
 ## To compile and build this project, you should follow these instruction:
 ### Environment: Windows (DOS)
 ### Instruction:
 1. Clone this repository to your local
 ```shellscript
-git clone https://github.com/phucthuan1st/MockStudentDataGenerator/
+git clone https://github.com/phucthuan1st/EmployeeSalary/
 ```
 If your PC do not have git yet, just install it [Git install instruction](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git)
 
@@ -46,18 +47,18 @@ cd ./MockStudentDataGenerator/
 
 3. Compile source file using c++ compiler (such as mingw c++ as below)
 ```shellscript
-g++ classImplementation.cpp Main.cpp -o ./Release/MockupStudentDataGenerator
+g++ classImplementation.cpp Main.cpp -o ./Release/EmployeeSalary
 ```
 You can also compile it by MSVC in VS too
 
 4. Open executive file in Release folder or type command to terminal: 
 ```shellscript
-./Release/MockupStudentDataGenerator
+./Release/EmployeeSalary
 ```
 
   You can combine step 3 and 4 like following:
   ```shellscript
-  g++ classImplementation.cpp Main.cpp -o ./Release/MockupStudentDataGenerator ; ./Release/MockupStudentDataGenerator
+  g++ Employee.cpp Main.cpp -o ./Release/EmployeeSalary ; ./Release/EmployeeSalary
   ```
   
 ## For bonus:
@@ -77,15 +78,15 @@ You can see a mini demo of this project in this link [Youtube Demo](https://yout
 ## Note
 You can use the execution file in ./Release without compile it by do step 1 & 2, then do step 4
 ```shellscript
-git clone https://github.com/phucthuan1st/MockStudentDataGenerator
+git clone https://github.com/phucthuan1st/EmployeeSalary
 ```
 
 ```shellscript
-cd ./MockStudentDataGenerator
+cd ./EmployeeSalary
 ```
 
 ```shellscript
-./Release/MockupStudentDataGenerator
+./Release/EmployeeSalary
 ```
 
 ## Thanks for visiting us 🤑🤑

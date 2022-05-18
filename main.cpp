@@ -2,15 +2,15 @@
 
 int main()
 {
-    Employee *employee1 = Employee::createEmployee(EmployeeType::ProductEmployee, 50, 10);
-    Employee *employee2 = Employee::createEmployee(EmployeeType::DailyEmployee, 40, 15);
-    Employee *employee3 = Employee::createEmployee(EmployeeType::HourlyEmployee, 60, 25);
-    Employee *employee4 = Employee::createEmployee(EmployeeType::Manager, 3, 100);
+    Employee *employee1 = EmployeeFactory::createEmployee(EmployeeType::ProductEmployee, "David Louis", 50, 10);
+    Employee *employee2 = EmployeeFactory::createEmployee(EmployeeType::DailyEmployee, "John Smith", 40, 15);
+    Employee *employee3 = EmployeeFactory::createEmployee(EmployeeType::HourlyEmployee, "Jenny Oliver", 60, 25);
+    Employee *employee4 = EmployeeFactory::createEmployee(EmployeeType::Manager, "Racoon Barterson", 3, 100);
 
-    cout << employee1->salary() << endl;
-    cout << employee2->salary() << endl;
-    cout << employee3->salary() << endl;
-    cout << employee4->salary() << endl;
+    cout << employee1->info() << endl;
+    cout << employee2->info() << endl;
+    cout << employee3->info() << endl;
+    cout << employee4->info() << endl;
 
     delete employee4;
     delete employee3;

@@ -30,3 +30,9 @@
 *.exe
 *.out
 *.app
+/.vs
+/x64/Debug
+*.sln
+*.vcxproj
+/EmployeeSalary.vcxproj.filters
+/EmployeeSalary.vcxproj.user

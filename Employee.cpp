@@ -27,11 +27,11 @@ vector<Employee *> EmployeeFactory::prototype{new DailyEmployee, new HourlyEmplo
 
 Employee *EmployeeFactory::createEmployee(string employeeType, string name, int unit, int pay_per_unit)
 {
-    if (employeeType == EmployeeType::HourlyEmployee)
+    if (employeeType == EmployeeType::DailyEmployee)
     {
         return prototype[0]->clone(name, unit, pay_per_unit);
     }
-    else if (employeeType == EmployeeType::DailyEmployee)
+    else if (employeeType == EmployeeType::HourlyEmployee)
     {
         return prototype[1]->clone(name, unit, pay_per_unit);
     }

@@ -42,12 +42,12 @@ If your PC do not have git yet, just install it [Git install instruction](https:
 
 2. Start a command promt or terminal in your folder repository (or using cd command)
 ```shellcript
-cd ./MockStudentDataGenerator/
+cd ./EmployeeSalary/
 ```
 
 3. Compile source file using c++ compiler (such as mingw c++ as below)
 ```shellscript
-g++ classImplementation.cpp Main.cpp -o ./Release/EmployeeSalary
+g++ Employee.cpp Main.cpp -o ./Release/EmployeeSalary
 ```
 You can also compile it by MSVC in VS too
 

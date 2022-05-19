@@ -1,6 +1,5 @@
 #include "Employee.h"
 
-
 vector<string> StringUtils::split(const string &source, string delim)
 {
     int start = 0;
@@ -24,33 +23,39 @@ vector<string> StringUtils::split(const string &source, string delim)
     return result;
 }
 
-Employee* EmployeeFactory::createEmployee(string employeeType, int unit, int pay_per_unit)
+vector<Employee *> EmployeeFactory::prototype{new DailyEmployee, new HourlyEmployee, new ProductEmployee, new Manager};
+
+Employee *EmployeeFactory::createEmployee(string employeeType, string name, int unit, int pay_per_unit)
 {
-    if (employeeType == HourlyEmployeeStr)
+    if (employeeType == EmployeeType::HourlyEmployee)
     {
-        return new HourlyEmployee(unit, pay_per_unit);
+        return prototype[0]->clone(name, unit, pay_per_unit);
     }
-    else if (employeeType == DailyEmployeeStr)
+    else if (employeeType == EmployeeType::DailyEmployee)
     {
-        return new DailyEmployee(unit, pay_per_unit);
+        return prototype[1]->clone(name, unit, pay_per_unit);
     }
-    else if (employeeType == ProductEmployeeStr)
+    else if (employeeType == EmployeeType::ProductEmployee)
     {
-        return new ProductEmployee(unit, pay_per_unit);
+        return prototype[2]->clone(name, unit, pay_per_unit);
     }
-    else if (employeeType == ManagerStr)
+    else if (employeeType == EmployeeType::Manager)
     {
-        return new Manager(unit, pay_per_unit);
+        return prototype[3]->clone(name, unit, pay_per_unit);
     }
+
+    return new DailyEmployee(name, unit, pay_per_unit);
 }
 
-// mock up data method implementation
-vector<Employee*> MockEmployeeData::parse(string filename)
+vector<Employee *> Parser::parse(string filename)
 {
-    int type = 0;
-    vector<Employee*> employees = {};
-    string unit = "";
-    string pay_per_unit = "";
+    vector<Employee *> employees = {};
+
+    string type;
+    string name;
+    int unit = 0;
+    int pay_per_unit = 0;
+
     fstream file(filename, ios::in);
 
     if (!file.is_open())
@@ -59,47 +64,21 @@ vector<Employee*> MockEmployeeData::parse(string filename)
     }
     else
     {
-        string temp_str = "";
-        while (getline(file, temp_str))
+        string line = "";
+        while (getline(file, line))
         {
+            vector<string> token = StringUtils::split(line, ": ");
+            type = token[0];
+            name = token[1];
 
-            vector<string> token = StringUtils::split(temp_str, ": ");
-            temp_str = "";
+            getline(file, line);
+            token = StringUtils::split(line, "$; ");
+            string work = token[0];
+            string pay = token[1];
+            unit = stoi(StringUtils::split(work, "=")[1]);
+            pay_per_unit = stoi(StringUtils::split(pay, "=")[1]);
 
-            // get Employee Type
-            string employeeType = token[0];
-
-            // get Name
-            string name = token[1];
-
-            
-            getline(file, temp_str);
-            token = StringUtils::split(temp_str, "$; ");
-            temp_str = "";
-
-            if (token.size() == 3) {
-                // get Pay Per Unit
-                vector<string>token1 = StringUtils::split(token[2], "=");
-                pay_per_unit = token1[1];
-
-                // get Unit
-                token1 = StringUtils::split(token[1], "=");
-                unit = token1[1];
-            }
-            else {
-                // get Pay Per Unit
-                vector<string>token1 = StringUtils::split(token[0], "=");
-                pay_per_unit = token1[1];
-
-                // get Unit
-                token1 = StringUtils::split(token[1], "=");
-                unit = token1[1];
-            }
-            
-
-            Employee* employee = EmployeeFactory::createEmployee(employeeType, stoi(unit), stoi(pay_per_unit));
-            employee->setName(name);
-            employees.push_back(employee);
+            employees.push_back(EmployeeFactory::createEmployee(type, name, unit, pay_per_unit));
         }
     }
 

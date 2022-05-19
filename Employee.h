@@ -3,13 +3,18 @@
 #include <iostream>
 #include <fstream>
 #include <vector>
-#include <string>
 #include <sstream>
-#include <map>
 
 using namespace std;
 
-
+class EmployeeType
+{
+public:
+    static constexpr const char *DailyEmployee = "DailyEmployee";
+    static constexpr const char *HourlyEmployee = "HourlyEmployee";
+    static constexpr const char *ProductEmployee = "ProductEmployee";
+    static constexpr const char *Manager = "Manager";
+};
 
 class Employee
 {
@@ -17,12 +22,13 @@ protected:
     string name;
 
 public:
+    virtual Employee *clone(string, int, int) = 0;
     virtual int salary() = 0;
-    virtual int getUnit() = 0;
-    virtual int getPayPerUnit() = 0;
-    virtual string className() = 0;
+    virtual string info() = 0;
+
+    // static Employee *createEmployee(string, int unit, int pay_per_unit);
+
     void setName(string name) { this->name = name; }
-    string getName() { return name; }
 };
 
 class DailyEmployee : public Employee
@@ -32,32 +38,38 @@ private:
     int _pay_per_day;
 
 public:
-    DailyEmployee() {
-        name = "";
-        _working_days = 0;
-        _pay_per_day = 0;
+    Employee *clone(string name, int unit, int pay_per_unit)
+    {
+        return new DailyEmployee(name, unit, pay_per_unit);
+    }
+
+    DailyEmployee() : _working_days(0), _pay_per_day(0) { this->name = "Some Daily Employee"; }
+
+    DailyEmployee(string name, int _working_days, int _pay_per_day)
+        : _working_days(_working_days), _pay_per_day(_pay_per_day)
+    {
+        this->name = name;
     };
 
-    DailyEmployee(int _working_days, int _pay_per_day)
-        : _working_days(_working_days), _pay_per_day(_pay_per_day){};
+    void setDay(int _working_days) { this->_working_days = _working_days; }
+    void setPayPerDay(int _pay_per_day) { this->_pay_per_day = _pay_per_day; }
 
     int salary()
     {
         return _pay_per_day * _working_days;
     }
 
-    int getUnit()
+    string info()
     {
-        return _working_days;
+        stringstream builder;
+
+        builder << EmployeeType::DailyEmployee << ": " << name << " - "
+                << "Salary: " << this->salary();
+
+        string result = builder.str();
+
+        return result;
     }
-
-    int getPayPerUnit()
-    {
-        return _pay_per_day;
-    }
-
-    string className() { return "DailyEmployee"; }
-
 };
 
 class HourlyEmployee : public Employee
@@ -67,33 +79,38 @@ private:
     int _pay_per_hours;
 
 public:
+    HourlyEmployee() : _working_hours(0), _pay_per_hours(0) { this->name = "Some Hourly Employee"; }
 
-    HourlyEmployee() {
-        name = "";
-        _working_hours = 0;
-        _pay_per_hours = 0;
+    Employee *clone(string name, int unit, int pay_per_unit)
+    {
+        return new HourlyEmployee(name, unit, pay_per_unit);
+    }
+
+    HourlyEmployee(string name, int _working_hours, int _pay_per_hours)
+        : _working_hours(_working_hours), _pay_per_hours(_pay_per_hours)
+    {
+        this->name = name;
     };
 
-    HourlyEmployee(int _working_hours, int _pay_per_hours)
-        : _working_hours(_working_hours), _pay_per_hours(_pay_per_hours){};
+    void setHour(int _working_hours) { this->_working_hours = _working_hours; }
+    void setPayPerHour(int _pay_per_hours) { this->_pay_per_hours = _pay_per_hours; }
 
     int salary()
     {
         return _pay_per_hours * _working_hours;
     }
 
-    int getUnit()
+    string info()
     {
-        return _working_hours;
+        stringstream builder;
+
+        builder << EmployeeType::HourlyEmployee << ": " << name << " - "
+                << "Salary: " << this->salary();
+
+        string result = builder.str();
+
+        return result;
     }
-
-    int getPayPerUnit()
-    {
-        return _pay_per_hours;
-    }
-
-    string className() { return "HourlyEmployee"; }
-
 };
 
 class ProductEmployee : public Employee
@@ -103,33 +120,38 @@ private:
     int _pay_per_products;
 
 public:
-    ProductEmployee() {
-        name = "";
-        _working_products = 0;
-        _pay_per_products = 0;
+    ProductEmployee() : _working_products(0), _pay_per_products(0) { this->name = "Some Product Employee"; }
+
+    Employee *clone(string name, int unit, int pay_per_unit)
+    {
+        return new ProductEmployee(name, unit, pay_per_unit);
+    }
+
+    ProductEmployee(string name, int _working_products, int _pay_per_products)
+        : _working_products(_working_products), _pay_per_products(_pay_per_products)
+    {
+        this->name = name;
     };
 
-
-    ProductEmployee(int _working_products, int _pay_per_products)
-        : _working_products(_working_products), _pay_per_products(_pay_per_products){};
+    void setProduct(int _working_products) { this->_working_products = _working_products; }
+    void setPayPerProduct(int _pay_per_products) { this->_pay_per_products = _pay_per_products; }
 
     int salary()
     {
         return _pay_per_products * _working_products;
     }
 
-    int getUnit()
+    string info()
     {
-        return _working_products;
+        stringstream builder;
+
+        builder << EmployeeType::ProductEmployee << ": " << name << " - "
+                << "Salary: " << this->salary();
+
+        string result = builder.str();
+
+        return result;
     }
-
-    int getPayPerUnit()
-    {
-        return _pay_per_products;
-    }
-
-    string className() { return "ProductEmployee"; }
-
 };
 
 class Manager : public Employee
@@ -140,16 +162,18 @@ private:
     int fix_salary = 500;
 
 public:
-    Manager() {
-        name = "";
-        _managed_employees = 0;
-        _pay_per_employee = 0;
-    };
+    Employee *clone(string name, int unit, int pay_per_unit)
+    {
+        return new Manager(name, unit, pay_per_unit);
+    }
 
-    Manager(int _managed_employees, int _pay_per_employee)
+    Manager() : _managed_employees(0), _pay_per_employee(0) { this->name = "Some Manager"; }
+
+    Manager(string name, int _managed_employees, int _pay_per_employee)
     {
         this->_managed_employees = _managed_employees;
         this->_pay_per_employee = _pay_per_employee;
+        this->name = name;
     }
 
     int salary()
@@ -157,43 +181,29 @@ public:
         return fix_salary + _pay_per_employee * _managed_employees;
     }
 
-    int getUnit()
+    void setManagedEmployees(int _managed_employees) { this->_managed_employees = _managed_employees; }
+    void setPayPerEmployee(int _pay_per_employee) { this->_pay_per_employee = _pay_per_employee; }
+
+    string info()
     {
-        return _managed_employees;
+        stringstream builder;
+
+        builder << EmployeeType::Manager << ": " << name << " - "
+                << "Salary: " << this->salary();
+
+        string result = builder.str();
+
+        return result;
     }
-
-    int getPayPerUnit()
-    {
-        return _pay_per_employee;
-    }
-
-    int getFixSalary()
-    {
-        return fix_salary;
-    }
-
-    string className() { return "Manager"; }
-
 };
 
 class EmployeeFactory
 {
+private:
+    static vector<Employee *> prototype;
+
 public:
-    static constexpr const char* DailyEmployeeStr = "DailyEmployee";
-    static constexpr const char* HourlyEmployeeStr = "HourlyEmployee";
-    static constexpr const char* ProductEmployeeStr = "ProductEmployee";
-    static constexpr const char* ManagerStr = "Manager";
-
-    static Employee* createEmployee(string, int, int);
-};
-
-class MockEmployeeData
-{
-public:
-    // parse data from file to an array
-    static vector<Employee*> parse(string filename);
-
-
+    static Employee *createEmployee(string employeeType, string name, int unit, int pay_per_unit);
 };
 
 class StringUtils
@@ -202,70 +212,8 @@ public:
     static vector<string> split(const string &source, string delim);
 };
 
-class IConverter {
+class Parser
+{
 public:
-    virtual string convert(void* shape) = 0;
-    
-};
-
-class DailyEmployeeUIConverter : public IConverter {
-public:
-    string convert(void* employee) {
-        DailyEmployee* dailyEmployee = (DailyEmployee*) employee;
-        stringstream builder;
-        builder << "DailyEmployee" << ": " << dailyEmployee->getName() << endl;
-        builder << "   DailyPayment=" << dailyEmployee->getPayPerUnit() << "$; TotalDays=" << dailyEmployee->getUnit() << endl;
-        builder << "   Salary=" << dailyEmployee->salary() << endl;
-
-        string result = builder.str();
-        return result;
-    }
-
-    
-};
-
-class HourlyEmployeeUIConverter : public IConverter {
-public:
-    string convert(void* employee) {
-        HourlyEmployee* hourlyEmployee = (HourlyEmployee*)employee;
-        stringstream builder;
-        builder << "HourlyEmployee" << ": " << hourlyEmployee->getName() << endl;
-        builder << "   HourlyPayment=" << hourlyEmployee->getPayPerUnit() << "$; TotalHours=" << hourlyEmployee->getUnit() << endl;
-        builder << "   Salary=" << hourlyEmployee->salary() << endl;
-
-        string result = builder.str();
-        return result;
-    }
-
-    
-};
-
-class ProductEmployeeUIConverter : public IConverter {
-public:
-    string convert(void* employee) {
-        ProductEmployee* productEmployee = (ProductEmployee*)employee;
-        stringstream builder;
-        builder << "ProductEmployee" << ": " << productEmployee->getName() << endl;
-        builder << "   PaymentPerProduct=" << productEmployee->getPayPerUnit() << "$; TotalProducts=" << productEmployee->getUnit() << endl;
-        builder << "   Salary=" << productEmployee->salary() << endl;
-        string result = builder.str();
-        return result;
-    }
-
-    
-};
-
-class ManagerUIConverter : public IConverter {
-public:
-    string convert(void* employee) {
-        Manager* manager = (Manager*)employee;
-        stringstream builder;
-        builder << "Manager" << ": " << manager->getName() << endl;
-        builder << "   FixedPayment=" << manager->getFixSalary() << "$; TotalEmployees=" << manager->getUnit() << "; PaymentPerProduct=" << manager->getPayPerUnit()<< "$" << endl;
-        builder << "   Salary=" << manager->salary() << endl;
-        string result = builder.str();
-        return result;
-    }
-
-  
+    static vector<Employee *> parse(string filename);
 };

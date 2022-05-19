@@ -47,7 +47,7 @@ cd ./EmployeeSalary/
 
 3. Compile source file using c++ compiler (such as mingw c++ as below)
 ```shellscript
-g++ Employee.cpp Main.cpp -o ./Release/EmployeeSalary
+g++ Employee.cpp main.cpp -o ./Release/EmployeeSalary
 ```
 You can also compile it by MSVC in VS too
 
@@ -58,7 +58,7 @@ You can also compile it by MSVC in VS too
 
   You can combine step 3 and 4 like following:
   ```shellscript
-  g++ Employee.cpp Main.cpp -o ./Release/EmployeeSalary ; ./Release/EmployeeSalary
+  g++ Employee.cpp main.cpp -o ./Release/EmployeeSalary ; ./Release/EmployeeSalary
   ```
   
 ## For bonus:

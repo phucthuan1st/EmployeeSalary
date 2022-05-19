@@ -63,7 +63,10 @@ You can also compile it by MSVC in VS too
   
 ## For bonus:
 - We use github to manage our code from the beginning of this project, because we think it will useful for further career.
-- We use some design pattern
+- We use some design pattern: 
+  - Prototype
+  - Factory
+  - Singleton
 - We build everything in class
 We think we could get a bit of bonus 🤣
   
